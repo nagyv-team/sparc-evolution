@@ -66,11 +66,25 @@ env/
 venv/
 ENV/
 .venv/
+*_env/
+research_env/
+testing_env/
 pip-log.txt
 pip-delete-this-directory.txt
 .pytest_cache/
 *.egg-info/
 .eggs/
+*.egg
+.installed.cfg
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.manifest
+*.spec
 
 # Database
 *.db
