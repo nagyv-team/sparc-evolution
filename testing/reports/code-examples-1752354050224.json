@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-07-12T21:00:50.223Z",
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 3,
+    "accuracy": 40,
+    "averagePerformance": 1.5
+  },
+  "errors": [
+    "Calculator: context.Calculator is not a constructor",
+    "Server: Invalid or unexpected token",
+    "/workspaces/sparc-evolution/platform/src/server.js: Syntax error in /workspaces/sparc-evolution/platform/src/server.js: Invalid or unexpected token"
+  ],
+  "performance": {
+    "/workspaces/sparc-evolution/platform/examples/sparc-2.0/todo-app.js": 1,
+    "/workspaces/sparc-evolution/platform/examples/sparc-3.0/ai-code-assistant.js": 2
+  },
+  "requirements": {
+    "accuracyTarget": 95,
+    "accuracyMet": false,
+    "performanceTarget": 5000,
+    "performanceMet": true
+  }
+}
