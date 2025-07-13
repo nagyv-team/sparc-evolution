@@ -32,6 +32,7 @@ const errorHandler = (err, req, res, next) => {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // Allow external connections for Codespaces
 
 // Security middleware
 app.use(helmet({
@@ -109,9 +110,24 @@ app.get('/api/sparc-info', (req, res) => {
   });
 });
 
-// Serve React frontend for SPA routes
+// Serve frontend HTML for SPA routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  const htmlPath = path.join(__dirname, '../src/frontend/index.html');
+  if (require('fs').existsSync(htmlPath)) {
+    res.sendFile(htmlPath);
+  } else {
+    res.send(`
+      <!DOCTYPE html>
+      <html>
+      <head><title>SPARC Evolution Platform</title></head>
+      <body>
+        <h1>SPARC Evolution Platform</h1>
+        <p>Platform is running! API endpoints are available at <a href="/api/health">/api/health</a></p>
+        <p>Frontend HTML not found at expected location. Check PORTS tab for Codespace URL.</p>
+      </body>
+      </html>
+    `);
+  }
 });
 
 // Error handling middleware (must be last)
@@ -147,10 +163,11 @@ io.on('connection', (socket) => {
 });
 
 // Start server
-server.listen(PORT, () => {
-  logger.info(`SPARC Evolution Platform running on port ${PORT}`);
+server.listen(PORT, HOST, () => {
+  logger.info(`SPARC Evolution Platform running on ${HOST}:${PORT}`);
   logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
-  logger.info(`Access the platform at: http://localhost:${PORT}`);
+  logger.info(`Local access: http://localhost:${PORT}`);
+  logger.info(`Codespace access: Check the PORTS tab in VS Code for the public URL`);
 });
 
 // Graceful shutdown

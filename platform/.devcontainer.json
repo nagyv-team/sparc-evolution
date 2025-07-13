@@ -1,0 +1,10 @@
+{
+  "name": "SPARC Evolution Platform",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "SPARC Platform",
+      "protocol": "http"
+    }
+  }
+}
