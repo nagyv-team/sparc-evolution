@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPARC Certification Assessment</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/assessment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="assessmentApp" class="assessment-app">
+        <!-- Assessment Header -->
+        <header class="assessment-header">
+            <div class="header-content">
+                <div class="assessment-info">
+                    <h1 id="assessmentTitle">SPARC Developer Certification</h1>
+                    <div class="assessment-meta">
+                        <span class="level-badge" id="levelBadge">Developer Level</span>
+                        <span class="question-count" id="questionCount">Question 1 of 30</span>
+                    </div>
+                </div>
+                <div class="assessment-controls">
+                    <div class="timer" id="timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="timeRemaining">60:00</span>
+                    </div>
+                    <button class="btn btn-outline btn-sm" id="pauseBtn">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button class="btn btn-danger btn-sm" id="exitBtn">
+                        <i class="fas fa-times"></i> Exit
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 3.33%"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">3.33% Complete</span>
+                    <span id="scoreIndicator" class="score-indicator hidden">Current Score: 0%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Assessment Content -->
+        <main class="assessment-main">
+            <!-- Question Section -->
+            <section class="question-section" id="questionSection">
+                <div class="question-container">
+                    <div class="question-header">
+                        <div class="question-category" id="questionCategory">SPARC Methodology</div>
+                        <div class="question-difficulty" id="questionDifficulty">
+                            <i class="fas fa-star"></i>
+                            <span>Intermediate</span>
+                        </div>
+                    </div>
+                    
+                    <div class="question-content">
+                        <h2 class="question-text" id="questionText">
+                            What is the primary purpose of the Pseudocode phase in SPARC methodology?
+                        </h2>
+                        
+                        <!-- Multiple Choice Options -->
+                        <div class="answer-options" id="answerOptions">
+                            <div class="option" data-option="0">
+                                <label class="option-label">
+                                    <input type="radio" name="answer" value="0">
+                                    <span class="option-letter">A</span>
+                                    <span class="option-text">To write the final implementation code immediately</span>
+                                </label>
+                            </div>
+                            <div class="option" data-option="1">
+                                <label class="option-label">
+                                    <input type="radio" name="answer" value="1">
+                                    <span class="option-letter">B</span>
+                                    <span class="option-text">To create a step-by-step logical flow before actual implementation</span>
+                                </label>
+                            </div>
+                            <div class="option" data-option="2">
+                                <label class="option-label">
+                                    <input type="radio" name="answer" value="2">
+                                    <span class="option-letter">C</span>
+                                    <span class="option-text">To design the user interface layout</span>
+                                </label>
+                            </div>
+                            <div class="option" data-option="3">
+                                <label class="option-label">
+                                    <input type="radio" name="answer" value="3">
+                                    <span class="option-letter">D</span>
+                                    <span class="option-text">To handle error cases and edge conditions</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Code Review Section (for coding questions) -->
+                        <div class="code-review-section hidden" id="codeReviewSection">
+                            <div class="code-block">
+                                <pre><code id="codeToReview"></code></pre>
+                            </div>
+                            <div class="review-input">
+                                <label for="reviewAnswer">Your analysis:</label>
+                                <textarea id="reviewAnswer" placeholder="Identify issues and suggest improvements..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Practical Coding Section -->
+                        <div class="coding-section hidden" id="codingSection">
+                            <div class="coding-instructions">
+                                <h3>Coding Challenge</h3>
+                                <div class="requirements" id="codingRequirements"></div>
+                            </div>
+                            <div class="code-editor-container">
+                                <textarea id="codingAnswer" placeholder="Write your code here..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Short Answer Section -->
+                        <div class="short-answer-section hidden" id="shortAnswerSection">
+                            <textarea id="shortAnswer" placeholder="Enter your answer here..."></textarea>
+                            <div class="answer-hints">
+                                <p><strong>Hint:</strong> Consider the key principles and objectives of this phase.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Navigation Controls -->
+            <div class="question-navigation">
+                <button class="btn btn-outline" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                
+                <div class="question-actions">
+                    <button class="btn btn-outline" id="flagBtn">
+                        <i class="fas fa-flag"></i> Flag for Review
+                    </button>
+                    <button class="btn btn-outline" id="skipBtn">
+                        Skip Question
+                    </button>
+                </div>
+                
+                <button class="btn btn-primary" id="nextBtn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="assessment-sidebar" id="assessmentSidebar">
+            <div class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div class="sidebar-content">
+                <h3>Question Overview</h3>
+                <div class="question-grid" id="questionGrid">
+                    <!-- Questions will be populated dynamically -->
+                </div>
+                
+                <div class="assessment-summary">
+                    <h4>Progress Summary</h4>
+                    <div class="summary-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="answeredCount">0</span>
+                            <span class="stat-label">Answered</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="flaggedCount">0</span>
+                            <span class="stat-label">Flagged</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="skippedCount">0</span>
+                            <span class="stat-label">Skipped</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success btn-block" id="submitAssessmentBtn" disabled>
+                    <i class="fas fa-check"></i> Submit Assessment
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <h3>Processing Assessment...</h3>
+            <p id="loadingMessage">Initializing your certification assessment</p>
+        </div>
+    </div>
+
+    <!-- Confirmation Modals -->
+    <div id="exitModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Exit Assessment?</h3>
+            <p>Are you sure you want to exit? Your progress will be lost.</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="cancelExitBtn">Cancel</button>
+                <button class="btn btn-danger" id="confirmExitBtn">Exit Assessment</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="submitModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Submit Assessment?</h3>
+            <p>You have answered <span id="submitAnsweredCount">0</span> out of <span id="submitTotalCount">30</span> questions.</p>
+            <p><strong>This action cannot be undone.</strong></p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="cancelSubmitBtn">Review Answers</button>
+                <button class="btn btn-success" id="confirmSubmitBtn">Submit Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="resultsModal" class="modal hidden">
+        <div class="modal-content results-content">
+            <div class="results-header">
+                <div class="result-icon" id="resultIcon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 id="resultTitle">Certification Passed!</h2>
+                <div class="result-score">
+                    <span class="score-value" id="finalScore">85%</span>
+                    <span class="score-label">Final Score</span>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="score-breakdown">
+                    <h3>Score Breakdown</h3>
+                    <div class="breakdown-item">
+                        <span>Correct Answers:</span>
+                        <span id="correctAnswers">25/30</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Passing Score:</span>
+                        <span id="passingScore">75%</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span>Time Taken:</span>
+                        <span id="timeTaken">45 minutes</span>
+                    </div>
+                </div>
+                
+                <div class="category-scores" id="categoryScores">
+                    <h3>Category Performance</h3>
+                    <!-- Will be populated dynamically -->
+                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button class="btn btn-primary" id="downloadCertBtn">
+                    <i class="fas fa-download"></i> Download Certificate
+                </button>
+                <button class="btn btn-outline" id="reviewAnswersBtn">
+                    <i class="fas fa-eye"></i> Review Answers
+                </button>
+                <button class="btn btn-outline" id="retakeBtn" style="display: none;">
+                    <i class="fas fa-redo"></i> Retake Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/assessment.js"></script>
+</body>
+</html>
