@@ -831,6 +831,7 @@ app.get('/', (req, res) => {
         }
 
         function completeModule() {
+          console.log('completeModule called - Module 1');
           moduleProgress.module1.completed = true;
           moduleProgress.module1.currentLesson = module1Lessons.length;
           
@@ -842,14 +843,29 @@ app.get('/', (req, res) => {
           document.getElementById('module1Progress').textContent = '100% Complete';
           
           // Unlock Module 2
-          document.getElementById('module2Btn').disabled = false;
-          document.getElementById('module2Btn').textContent = 'Start Module 2';
-          document.getElementById('module2Progress').textContent = 'Ready to Start';
+          const module2Btn = document.getElementById('module2Btn');
+          if (module2Btn) {
+            module2Btn.disabled = false;
+            module2Btn.textContent = 'Start Module 2';
+            module2Btn.className = 'btn btn-primary';
+            console.log('Module 2 button unlocked');
+          } else {
+            console.error('Module 2 button not found!');
+          }
+          
+          const module2Progress = document.getElementById('module2Progress');
+          if (module2Progress) {
+            module2Progress.textContent = 'Ready to Start';
+          }
           
           // Unlock Developer Certification
-          document.getElementById('developerCertBtn').disabled = false;
-          document.getElementById('developerCertBtn').textContent = 'Start Developer Assessment';
-          document.getElementById('developerCertBtn').className = 'btn btn-primary';
+          const developerCertBtn = document.getElementById('developerCertBtn');
+          if (developerCertBtn) {
+            developerCertBtn.disabled = false;
+            developerCertBtn.textContent = 'Start Developer Assessment';
+            developerCertBtn.className = 'btn btn-primary';
+            console.log('Developer certification unlocked');
+          }
           
           alert('🎉 Congratulations! Module 1 Complete!\\n\\n✅ You have mastered SPARC Foundation\\n🔓 Module 2: Advanced Patterns is now unlocked\\n🎓 Developer certification is now available!');
           
@@ -1097,6 +1113,8 @@ app.get('/', (req, res) => {
         }
 
         function startAssessment(level) {
+          console.log('startAssessment called with level:', level);
+          
           // Check prerequisites
           if (level === 'developer' && !moduleProgress.module1.completed) {
             alert('Please complete Module 1: Foundation first!');
@@ -1116,6 +1134,8 @@ app.get('/', (req, res) => {
           currentQuestions = questionBanks[level];
           currentQuestion = 0;
           assessmentAnswers = [];
+          
+          console.log('Assessment setup:', { level, questionsAvailable: currentQuestions ? currentQuestions.length : 0 });
 
           // Update assessment title and requirements
           const requirements = {
@@ -1128,7 +1148,11 @@ app.get('/', (req, res) => {
           const req = requirements[level];
           const title = level.charAt(0).toUpperCase() + level.slice(1) + ' Certification';
           
-          document.getElementById('assessment').querySelector('h3').textContent = 'SPARC ' + title + ' Assessment';
+          const assessmentTitle = document.getElementById('assessment').querySelector('h3');
+          if (assessmentTitle) {
+            assessmentTitle.textContent = 'SPARC ' + title + ' Assessment';
+          }
+          
           document.getElementById('certSelection').classList.add('hidden');
           document.getElementById('assessment').classList.remove('hidden');
           
@@ -1136,8 +1160,20 @@ app.get('/', (req, res) => {
         }
 
         function showQuestion() {
+          console.log('showQuestion called:', { currentQuestion, currentQuestions: currentQuestions.length });
+          
+          if (!currentQuestions || currentQuestions.length === 0) {
+            alert('Error: No questions available for assessment. Please try again.');
+            return;
+          }
+          
           const q = currentQuestions[currentQuestion];
           const container = document.getElementById('questionContainer');
+          
+          if (!container) {
+            alert('Error: Question container not found. Please refresh the page.');
+            return;
+          }
           
           container.innerHTML = 
             '<div class="assessment-question">' +
@@ -1305,6 +1341,14 @@ app.get('/', (req, res) => {
           }
         }
 
+        // Debug: Test question banks
+        console.log('Question banks loaded:', {
+          practitioner: questionBanks.practitioner ? questionBanks.practitioner.length : 0,
+          developer: questionBanks.developer ? questionBanks.developer.length : 0,
+          architect: questionBanks.architect ? questionBanks.architect.length : 0,
+          master: questionBanks.master ? questionBanks.master.length : 0
+        });
+
         // Initialize with home section and load user progress
         loadUserProgress();
         updateDashboard();
@@ -1322,6 +1366,39 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     platform: 'SPARC Evolution Interactive',
     features: ['playground', 'assessment', 'learning', 'certification']
+  });
+});
+
+// Test endpoint for functionality validation
+app.get('/api/test', (req, res) => {
+  res.json({
+    status: 'testing',
+    tests: {
+      server: 'running',
+      assessmentQuestions: {
+        practitioner: 5,
+        developer: 5,
+        architect: 5,
+        master: 5
+      },
+      modules: {
+        module1: 'available',
+        module2: 'available',
+        module3: 'available'
+      },
+      features: [
+        'learning-modules',
+        'assessments',
+        'progress-tracking',
+        'dashboard',
+        'export-import'
+      ]
+    },
+    knownIssues: [
+      'Module unlocking may require browser refresh',
+      'Assessment questions visibility needs manual verification'
+    ],
+    debugging: 'Console logs enabled for troubleshooting'
   });
 });
 

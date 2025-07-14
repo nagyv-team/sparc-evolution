@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SPARC Platform Functionality Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .pass { background-color: #d4edda; border-color: #c3e6cb; }
+        .fail { background-color: #f8d7da; border-color: #f5c6cb; }
+        .pending { background-color: #fff3cd; border-color: #ffeaa7; }
+    </style>
+</head>
+<body>
+    <h1>🧪 SPARC Platform Functionality Tests</h1>
+    <p>This page tests the core functionality that should work on the platform.</p>
+    
+    <div id="testResults"></div>
+    
+    <h2>Manual Test Instructions</h2>
+    <ol>
+        <li><strong>Learning Module Test:</strong>
+            <ul>
+                <li>Go to Learning section</li>
+                <li>Click "Start Module" for Module 1</li>
+                <li>Navigate through all 5 lessons</li>
+                <li>Click "Complete Module" on the last lesson</li>
+                <li>Verify Module 2 becomes available (not locked)</li>
+            </ul>
+        </li>
+        <li><strong>Assessment Test:</strong>
+            <ul>
+                <li>Go to Certification section</li>
+                <li>Click "Start Assessment" for Practitioner</li>
+                <li>Verify questions appear (not blank)</li>
+                <li>Answer all 5 questions</li>
+                <li>Complete assessment and verify score appears</li>
+            </ul>
+        </li>
+        <li><strong>Progress Persistence Test:</strong>
+            <ul>
+                <li>Complete Module 1</li>
+                <li>Refresh the page</li>
+                <li>Verify Module 1 remains completed</li>
+                <li>Verify Module 2 is still unlocked</li>
+            </ul>
+        </li>
+    </ol>
+
+    <script>
+        const tests = [
+            {
+                name: "Question Banks Loaded",
+                test: () => {
+                    // Test if question banks exist (we'll need to inject this from the main page)
+                    return typeof questionBanks !== 'undefined' && 
+                           questionBanks.practitioner && 
+                           questionBanks.practitioner.length > 0;
+                }
+            },
+            {
+                name: "Module Progress Tracking",
+                test: () => {
+                    // Test if module progress object exists
+                    return typeof moduleProgress !== 'undefined' &&
+                           moduleProgress.module1 &&
+                           typeof moduleProgress.module1.completed === 'boolean';
+                }
+            },
+            {
+                name: "User Progress Persistence",
+                test: () => {
+                    // Test localStorage functionality
+                    try {
+                        localStorage.setItem('test', 'value');
+                        const result = localStorage.getItem('test') === 'value';
+                        localStorage.removeItem('test');
+                        return result;
+                    } catch (e) {
+                        return false;
+                    }
+                }
+            }
+        ];
+
+        function runTests() {
+            const resultsDiv = document.getElementById('testResults');
+            let results = '<h2>🔍 Automated Test Results</h2>';
+            
+            tests.forEach(test => {
+                try {
+                    const passed = test.test();
+                    results += `<div class="test ${passed ? 'pass' : 'fail'}">
+                        ${passed ? '✅' : '❌'} ${test.name}: ${passed ? 'PASS' : 'FAIL'}
+                    </div>`;
+                } catch (error) {
+                    results += `<div class="test fail">
+                        ❌ ${test.name}: ERROR - ${error.message}
+                    </div>`;
+                }
+            });
+            
+            results += `<div class="test pending">
+                ⏳ Manual tests required - see instructions above
+            </div>`;
+            
+            resultsDiv.innerHTML = results;
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', runTests);
+    </script>
+</body>
+</html>
