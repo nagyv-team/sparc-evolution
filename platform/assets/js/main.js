@@ -19,10 +19,28 @@ const elements = {};
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing...');
     initializeElements();
+    
+    // Debug: Check loading overlay status
+    const overlay = document.getElementById('loadingOverlay');
+    console.log('Loading overlay found:', !!overlay);
+    console.log('Loading overlay classes:', overlay?.className);
+    console.log('Loading overlay style.display:', overlay?.style.display);
+    
+    // Force hide loading overlay
+    if (overlay) {
+        overlay.style.display = 'none';
+        overlay.classList.add('hidden');
+        console.log('Forced loading overlay to hidden');
+    }
+    
     setupEventListeners();
     setupNavigation();
-    loadExamples();
+    // Don't load examples immediately to prevent loading popup
+    // loadExamples();
+    
+    console.log('Initialization complete');
 });
 
 // Initialize DOM element references
@@ -113,6 +131,8 @@ function navigateToSection(sectionId) {
     // Initialize section-specific features
     if (sectionId === 'playground' && !state.playgroundSession) {
         initializePlayground();
+        // Load examples when playground is accessed
+        loadExamples();
     }
 }
 
@@ -373,11 +393,17 @@ function handleSignup() {
 
 // Utility functions
 function showLoading() {
-    elements.loadingOverlay.classList.remove('hidden');
+    if (elements.loadingOverlay) {
+        elements.loadingOverlay.classList.remove('hidden');
+        elements.loadingOverlay.style.display = 'flex';
+    }
 }
 
 function hideLoading() {
-    elements.loadingOverlay.classList.add('hidden');
+    if (elements.loadingOverlay) {
+        elements.loadingOverlay.classList.add('hidden');
+        elements.loadingOverlay.style.display = 'none';
+    }
 }
 
 function showMessage(message, type = 'info') {
