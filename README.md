@@ -256,6 +256,20 @@ npm install
 # See mcp-server/README.md for detailed setup
 ```
 
+### **Option 4: Start Interactive Server Locally**
+```bash
+npm run server
+# or directly:
+node interactive-server.js
+```
+
+**Access the Platform:**
+- Local: `http://localhost:3002`
+- GitHub Codespaces:
+  - Check the PORTS tab in VS Code
+  - Set port 3002 to "Public" visibility
+  - Click the forwarded URL to access
+
 ## 🎮 How to Use the Platform
 
 ### **1. Interactive Learning**

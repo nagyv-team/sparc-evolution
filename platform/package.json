@@ -2,10 +2,11 @@
   "name": "sparc-evolution-platform",
   "version": "1.0.0",
   "description": "Comprehensive educational platform for SPARC methodology evolution",
-  "main": "src/server.js",
+  "main": "interactive-server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "start": "node interactive-server.js",
+    "server": "node interactive-server.js",
+    "dev": "nodemon interactive-server.js",
     "test": "echo 'Tests run successfully'"
   },
   "dependencies": {
