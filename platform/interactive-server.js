@@ -1,10 +1,21 @@
 // Enhanced SPARC Platform with Interactive Features
 const express = require('express');
+const path = require('path');
+
+// Import our enhanced API routes
+const apiRoutes = require('./src/api/routes');
+
 const app = express();
 const PORT = 3002;
 
 app.use(express.json());
-app.use(express.static('public'));
+
+// Serve static assets (CSS, JS, images)
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'src/frontend')));
+
+// Use our enhanced API routes
+app.use('/api', apiRoutes);
 
 // CORS for Codespaces
 app.use((req, res, next) => {
@@ -17,8 +28,13 @@ app.use((req, res, next) => {
 const sessions = new Map();
 const assessments = new Map();
 
-// Main platform interface
+// Serve the main frontend
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/frontend/index.html'));
+});
+
+// Fallback route for the old embedded interface (keeping for compatibility)
+app.get('/embedded', (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html>
