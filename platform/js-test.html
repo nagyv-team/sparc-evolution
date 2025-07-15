@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Error Analysis Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-disabled { background: #6c757d; color: white; cursor: not-allowed; }
+        .cert-btn, .module-btn { min-width: 150px; }
+        .hidden { display: none; }
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+        .error { color: #dc3545; }
+        .success { color: #28a745; }
+        .warning { color: #ffc107; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Error Analysis Test</h1>
+    
+    <div class="test-section">
+        <h2>1. JavaScript File Loading Test</h2>
+        <div id="loadTest" class="test-results">Testing JavaScript file loading...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. DOM Element Test</h2>
+        <div id="domTest" class="test-results">Testing DOM element queries...</div>
+        
+        <!-- Test buttons that match main.js selectors -->
+        <div>
+            <button class="btn btn-primary cert-btn" data-level="practitioner">Test Cert Button</button>
+            <button class="btn btn-primary module-btn" data-module="foundation">Test Module Button</button>
+            <button class="btn btn-primary" id="startLearningBtn">Start Learning</button>
+            <button class="btn btn-primary" id="tryPlaygroundBtn">Try Playground</button>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Event Listener Test</h2>
+        <div id="eventTest" class="test-results">Testing event listeners...</div>
+        <div id="clickResults" class="test-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. API Constants Test</h2>
+        <div id="apiTest" class="test-results">Testing API configuration...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Mock API Test</h2>
+        <div id="mockApiTest" class="test-results">Testing fetch requests with mock responses...</div>
+    </div>
+
+    <div class="test-section">
+        <h2>6. Debug Functions Test</h2>
+        <div id="debugTest" class="test-results">Testing debug functions...</div>
+        <button class="btn btn-primary" onclick="testDebugFunctions()">Test Debug Functions</button>
+    </div>
+
+    <!-- Loading overlay (matches main.js) -->
+    <div id="loadingOverlay" class="hidden">Loading...</div>
+
+    <!-- Fake sections for navigation test -->
+    <section id="home">Home Section</section>
+    <section id="learning" class="hidden">Learning Section</section>
+    <section id="certification" class="hidden">Certification Section</section>
+    <section id="playground" class="hidden">Playground Section</section>
+
+    <script>
+        // Test results container
+        const testResults = {
+            loadTest: document.getElementById('loadTest'),
+            domTest: document.getElementById('domTest'),
+            eventTest: document.getElementById('eventTest'),
+            apiTest: document.getElementById('apiTest'),
+            mockApiTest: document.getElementById('mockApiTest'),
+            debugTest: document.getElementById('debugTest'),
+            clickResults: document.getElementById('clickResults')
+        };
+
+        // Mock fetch for testing
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+            console.log('Mock fetch called:', url, options);
+            
+            // Return mock responses for different endpoints
+            if (url.includes('/api/user/progress/')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({
+                        id: 'test-user',
+                        certifications: [],
+                        moduleProgress: {}
+                    })
+                });
+            } else if (url.includes('/api/certification/button-states/')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({
+                        practitioner: {
+                            text: 'Start Certification',
+                            enabled: true,
+                            completed: false,
+                            requirements: []
+                        }
+                    })
+                });
+            } else if (url.includes('/api/modules/available/')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: () => Promise.resolve({
+                        modules: [{
+                            id: 'foundation',
+                            locked: false,
+                            completed: false,
+                            score: 0,
+                            prerequisites: []
+                        }]
+                    })
+                });
+            }
+            
+            // Default mock response
+            return Promise.resolve({
+                ok: true,
+                json: () => Promise.resolve({ success: true, message: 'Mock response' })
+            });
+        };
+
+        function updateResults(testId, message, type = 'info') {
+            const element = testResults[testId];
+            if (element) {
+                element.innerHTML += `<span class="${type}">[${new Date().toLocaleTimeString()}] ${message}</span>\n`;
+            }
+        }
+
+        function testDebugFunctions() {
+            updateResults('debugTest', 'Testing window.debugButtons()...', 'info');
+            try {
+                if (typeof window.debugButtons === 'function') {
+                    window.debugButtons();
+                    updateResults('debugTest', '✓ window.debugButtons() executed successfully', 'success');
+                } else {
+                    updateResults('debugTest', '✗ window.debugButtons() not found', 'error');
+                }
+            } catch (error) {
+                updateResults('debugTest', `✗ window.debugButtons() error: ${error.message}`, 'error');
+            }
+
+            updateResults('debugTest', 'Testing window.forceUpdate()...', 'info');
+            try {
+                if (typeof window.forceUpdate === 'function') {
+                    window.forceUpdate();
+                    updateResults('debugTest', '✓ window.forceUpdate() executed successfully', 'success');
+                } else {
+                    updateResults('debugTest', '✗ window.forceUpdate() not found', 'error');
+                }
+            } catch (error) {
+                updateResults('debugTest', `✗ window.forceUpdate() error: ${error.message}`, 'error');
+            }
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateResults('loadTest', 'DOM Content Loaded event fired', 'success');
+            
+            // Test 1: JavaScript file loading
+            updateResults('loadTest', 'Checking if main.js variables are available...', 'info');
+            setTimeout(() => {
+                if (typeof window.debugButtons === 'function') {
+                    updateResults('loadTest', '✓ window.debugButtons function is available', 'success');
+                } else {
+                    updateResults('loadTest', '✗ window.debugButtons function not found', 'error');
+                }
+                
+                if (typeof window.forceUpdate === 'function') {
+                    updateResults('loadTest', '✓ window.forceUpdate function is available', 'success');
+                } else {
+                    updateResults('loadTest', '✗ window.forceUpdate function not found', 'error');
+                }
+            }, 100);
+
+            // Test 2: DOM elements
+            updateResults('domTest', 'Testing DOM element queries...', 'info');
+            
+            const certBtns = document.querySelectorAll('.cert-btn');
+            const moduleBtns = document.querySelectorAll('.module-btn');
+            const startBtn = document.getElementById('startLearningBtn');
+            const tryBtn = document.getElementById('tryPlaygroundBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            updateResults('domTest', `✓ Found ${certBtns.length} cert buttons`, 'success');
+            updateResults('domTest', `✓ Found ${moduleBtns.length} module buttons`, 'success');
+            updateResults('domTest', `✓ Start Learning button: ${startBtn ? 'found' : 'not found'}`, startBtn ? 'success' : 'error');
+            updateResults('domTest', `✓ Try Playground button: ${tryBtn ? 'found' : 'not found'}`, tryBtn ? 'success' : 'error');
+            updateResults('domTest', `✓ Loading overlay: ${loadingOverlay ? 'found' : 'not found'}`, loadingOverlay ? 'success' : 'error');
+
+            // Test 3: Event listeners
+            updateResults('eventTest', 'Testing event delegation...', 'info');
+            
+            // Add click listeners to test buttons
+            certBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    updateResults('clickResults', `✓ Cert button clicked: ${e.target.dataset.level}`, 'success');
+                });
+            });
+            
+            moduleBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    updateResults('clickResults', `✓ Module button clicked: ${e.target.dataset.module}`, 'success');
+                });
+            });
+
+            // Test 4: API constants
+            updateResults('apiTest', 'Testing API constants...', 'info');
+            updateResults('apiTest', `API_BASE should be '/api' - checking if accessible...`, 'info');
+            
+            // Test 5: Mock API calls
+            updateResults('mockApiTest', 'Testing mock API calls...', 'info');
+            
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('/api/user/progress/test-user');
+                    const data = await response.json();
+                    updateResults('mockApiTest', `✓ Mock API call successful: ${JSON.stringify(data)}`, 'success');
+                } catch (error) {
+                    updateResults('mockApiTest', `✗ Mock API call failed: ${error.message}`, 'error');
+                }
+            }, 200);
+        });
+
+        // Test console logging
+        console.log('=== JAVASCRIPT TEST PAGE LOADED ===');
+        console.log('Testing console.log functionality');
+        console.error('Testing console.error functionality');
+        console.warn('Testing console.warn functionality');
+        console.info('Testing console.info functionality');
+    </script>
+
+    <!-- Load the main.js file to test it -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
