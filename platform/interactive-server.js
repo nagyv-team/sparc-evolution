@@ -202,7 +202,7 @@ app.get('/embedded', (req, res) => {
                 <li>🔒 Performance optimization</li>
                 <li>🔒 Error handling patterns</li>
               </ul>
-              <button class="btn" id="module2Btn" disabled>Complete Module 1</button>
+              <button class="btn" id="module2Btn" onclick="startModule(2)" disabled>Complete Module 1</button>
             </div>
             <div class="feature-card">
               <h3>Module 3: AI Integration</h3>
@@ -214,7 +214,7 @@ app.get('/embedded', (req, res) => {
                 <li>🔒 Neural memory systems</li>
                 <li>🔒 Production deployment</li>
               </ul>
-              <button class="btn" id="module3Btn" disabled>Complete Module 2</button>
+              <button class="btn" id="module3Btn" onclick="startModule(3)" disabled>Complete Module 2</button>
             </div>
           </div>
 

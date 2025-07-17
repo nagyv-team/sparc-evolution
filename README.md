@@ -51,10 +51,51 @@ Comprehensive analysis and interactive educational platform documenting the SPAR
 - **R**efinement: Iterative improvement and optimization
 - **C**ompletion: Final implementation and validation
 
-## 🌐 Platform Access
+## 🌐 Platform Access - Two Application Versions Available
 
-### **Live Interactive Platform**
-**Primary URL:** `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/`
+### **🎯 IMPORTANT: Choose Your Application Version**
+
+The platform offers **two distinct user interfaces** with the same core functionality:
+
+#### **1. 🚀 Modern Professional Version (RECOMMENDED)**
+**URL:** `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/`
+
+**Features:**
+- ✅ **Modern UI Design**: Professional responsive interface
+- ✅ **External Assets**: Optimized CSS, fonts, and resources
+- ✅ **Better Performance**: Cached assets and modular architecture
+- ✅ **Production Ready**: Professional appearance for demos and presentations
+- ✅ **Enhanced UX**: Smooth navigation and modern web standards
+
+**Best For:** Production use, demonstrations, professional presentations
+
+#### **2. 📦 Embedded Compatibility Version**
+**URL:** `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/embedded`
+
+**Features:**
+- ✅ **Self-Contained**: All code embedded in single response
+- ✅ **Compatibility**: Works in restricted environments
+- ✅ **Simplified**: Basic inline styling and functionality
+- ✅ **Single Request**: Entire application loads in one call
+- ✅ **Fallback Ready**: Reliable backup version
+
+**Best For:** Testing, compatibility issues, single-file deployment
+
+### **🎨 Visual Comparison**
+
+| Feature | Modern Version (/) | Embedded Version (/embedded) |
+|---------|-------------------|------------------------------|
+| **Styling** | External CSS files | Inline CSS |
+| **Performance** | Cached assets | Single large payload |
+| **Maintenance** | Modular files | Monolithic code |
+| **Appearance** | Professional & polished | Functional & basic |
+| **Dependencies** | External fonts/icons | Self-contained |
+
+### **⚡ Quick Access Links**
+
+- **🎯 Primary Platform**: https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/
+- **📦 Embedded Version**: https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/embedded
+- **🔍 Health Check**: https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/api/health
 
 ## 🎛️ Platform Functionality Matrix
 
@@ -231,7 +272,16 @@ sparc-evolution/
 ## 🚀 Quick Start
 
 ### **Option 1: Use Live Platform (Recommended)**
-Simply visit: `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/`
+
+**🎯 CHOOSE YOUR VERSION:**
+- **Modern Professional**: `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/`
+- **Embedded Compatibility**: `https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/embedded`
+
+**Both versions include:**
+- ✅ Interactive SPARC Playground
+- ✅ Certification System
+- ✅ Learning Modules
+- ✅ Progress Tracking
 
 ### **Option 2: Local Development**
 ```bash
@@ -269,6 +319,38 @@ node interactive-server.js
   - Check the PORTS tab in VS Code
   - Set port 3002 to "Public" visibility
   - Click the forwarded URL to access
+
+## 🔧 Troubleshooting & Version Selection
+
+### **When to Use Each Version**
+
+#### **🚀 Use Modern Version (/) When:**
+- ✅ Giving professional demonstrations
+- ✅ Production or client presentations
+- ✅ Need optimal performance
+- ✅ Want the best user experience
+- ✅ Network allows external resources
+
+#### **📦 Use Embedded Version (/embedded) When:**
+- ✅ Testing or debugging functionality
+- ✅ Network restrictions block external resources
+- ✅ Need single-file deployment
+- ✅ Compatibility issues with modern version
+- ✅ Working in restricted environments
+
+### **⚠️ Common Issues & Solutions**
+
+| Issue | Solution |
+|-------|----------|
+| **502 Error** | Server restarting - wait 30 seconds and retry |
+| **Buttons not working** | Clear browser cache and refresh |
+| **Slow loading** | Try embedded version for faster single-request loading |
+| **Styling issues** | Switch to embedded version for self-contained styling |
+| **Module 2 button not working** | Bug fixed - refresh page and try again |
+
+### **🔄 Server Status Check**
+- **Health Check**: https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/api/health
+- **Test Endpoint**: https://humble-computing-machine-7qqrqvpjqgcx446-3002.app.github.dev/api/test
 
 ## 🎮 How to Use the Platform
 
