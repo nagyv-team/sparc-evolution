@@ -1,6 +1,10 @@
 {
   "name": "SPARC Evolution Development",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "runArgs": [
+    "--privileged"
+  ],
+  "remoteUser": "vscode",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "nodeGypDependencies": true,
@@ -38,6 +42,6 @@
       ]
     }
   },
-  "remoteUser": "vscode",
   "workspaceFolder": "/workspaces/sparc-evolution",
+  "shutdownAction": "none"
 }
